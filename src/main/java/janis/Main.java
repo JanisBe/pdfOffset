@@ -11,8 +11,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("mainWindow.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 180));
+        primaryStage.setTitle("pdf offset adjuster");
+        primaryStage.setScene(new Scene(root, 500, 180));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

@@ -11,9 +11,9 @@ import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import java.io.File;
 import java.io.IOException;
 
-public class PdfReaders {
+public class Offsetter {
 
-    public static void main(String[] args) {
+    public static void offset(File input, String outputFilePath, float xOffset, float yOffset) {
 
         try {
             String name = "test";

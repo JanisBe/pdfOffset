@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
-<?import javafx.scene.control.Button?>
+<?import janis.objects.NumberTextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<GridPane alignment="center" hgap="1.0" minHeight="180.0" minWidth="300.0" prefHeight="180.0" prefWidth="300.0"
-          vgap="1.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171"
+<?import javafx.scene.text.Font?>
+<GridPane alignment="center" hgap="1.0" minHeight="180.0" minWidth="500.0" prefHeight="180.0" prefWidth="500.0"
+          vgap="1.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="janis.Controller">
     <rowConstraints>
         <RowConstraints minHeight="10.0" prefHeight="30.0"/>
@@ -14,9 +15,11 @@
         <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER"/>
     </rowConstraints>
     <columnConstraints>
-        <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
-        <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
-        <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
         <ColumnConstraints/>
         <ColumnConstraints/>
         <ColumnConstraints/>
@@ -26,9 +29,36 @@
         <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0"/>
     </columnConstraints>
     <children>
-        <Button mnemonicParsing="false" text="Button" GridPane.columnIndex="2" GridPane.halignment="CENTER"
-                GridPane.rowIndex="4" GridPane.valignment="CENTER"/>
-        <Button mnemonicParsing="false" text="Button" GridPane.halignment="CENTER" GridPane.rowIndex="4"
+        <Button fx:id="close" mnemonicParsing="false" onAction="#close" text="Close" GridPane.columnIndex="4"
+                GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER"/>
+        <Button fx:id="browseInput" mnemonicParsing="false" onAction="#browseInput" text="Browse"
+                GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1"
                 GridPane.valignment="CENTER"/>
+        <TextField fx:id="inputLocation" prefWidth="190.0" GridPane.columnIndex="1" GridPane.columnSpan="3"
+                   GridPane.rowIndex="1"/>
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="295.0"
+               text="Printer offset calculator" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
+        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Input pdf file" GridPane.halignment="CENTER"
+               GridPane.rowIndex="1"/>
+        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Output pdf file" GridPane.halignment="CENTER"
+               GridPane.rowIndex="2"/>
+        <TextField fx:id="outputLocation" prefWidth="190.0" GridPane.columnIndex="1" GridPane.columnSpan="3"
+                   GridPane.rowIndex="2"/>
+        <Button fx:id="browseOutput" mnemonicParsing="false" onAction="#browseOutput" text="Browse"
+                GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2"/>
+        <Button fx:id="convert" mnemonicParsing="false" onAction="#convert" text="Convert" GridPane.columnIndex="1"
+                GridPane.halignment="CENTER" GridPane.rowIndex="4">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Button>
+        <Button fx:id="testPdfFile" mnemonicParsing="false" onAction="#createTestFile" text="Test pdf file"
+                GridPane.halignment="CENTER"/>
+        <NumberTextField maxWidth="40.0" minWidth="40.0" prefWidth="40.0" GridPane.columnIndex="1"
+                         GridPane.halignment="RIGHT" GridPane.rowIndex="3" fx:id="xOffset"/>
+        <Label text="X offset" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="Y offset" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+        <NumberTextField fx:id="yOffset" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" GridPane.columnIndex="3"
+                         GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
     </children>
 </GridPane>
