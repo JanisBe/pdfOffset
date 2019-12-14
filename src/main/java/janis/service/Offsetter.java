@@ -13,20 +13,14 @@ import java.io.IOException;
 
 public class Offsetter {
 
-    public static void offset(File input, String outputFilePath, float xOffset, float yOffset) {
+    public static void offset(File input, String outputFilePath, float xOffset, float yOffset) throws IOException {
 
-        try {
-            String name = "test";
-            String pathname = "d:/pdf/" + name;
-            File file = new File(pathname + ".pdf");
-            File file2 = new File(pathname + "2.pdf");
-
-            PdfDocument srcDoc = new PdfDocument(new PdfReader(file));
+        PdfDocument srcDoc = new PdfDocument(new PdfReader(input));
             Rectangle rect = srcDoc.getFirstPage().getPageSize();
 
             Rectangle pageSize = new Rectangle(rect.getWidth(), rect.getHeight());
 
-            PdfDocument pdfDoc = new PdfDocument(new PdfWriter(file2));
+        PdfDocument pdfDoc = new PdfDocument(new PdfWriter(new File(outputFilePath)));
             pdfDoc.setDefaultPageSize(new PageSize(pageSize));
 
             PdfCanvas content = new PdfCanvas(pdfDoc.addNewPage());
@@ -39,17 +33,14 @@ public class Offsetter {
                 if (n % 2 == 0)
                     content.addXObject(page, 0, 0);// here margin which is installed in DEST1
                 else if (!(n % 2 == 0))
-                    content.addXObject(page, 100, -100);
+                    content.addXObject(page, xOffset, yOffset);
                 // y dodatni przesuwa w górę, x dodatni przesuwa w lewo
                 content = new PdfCanvas(pdfDoc.addNewPage());
                 n++;
 
             }
-            srcDoc.close();
-            pdfDoc.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        srcDoc.close();
+            pdfDoc.close();
     }
 }

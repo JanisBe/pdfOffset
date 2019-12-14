@@ -4,18 +4,20 @@ import janis.objects.NumberTextField;
 import janis.service.Offsetter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 
-public class Controller {
+public class MainController {
     @FXML
     private NumberTextField xOffset;
 
@@ -28,11 +30,21 @@ public class Controller {
     @FXML
     private TextField outputLocation;
 
+    @FXML
+    private Button convert;
+
+    @FXML
+    private Label status;
+
     private File inputFile;
-    private File outputFile;
 
     public void browseOutput(ActionEvent actionEvent) {
-        outputFile = browse();
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(new Stage());
+        if (selectedDirectory != null) {
+            outputLocation.setText(selectedDirectory.getAbsolutePath() + "_offset.pdf");
+        }
+
     }
 
     public void convert(ActionEvent actionEvent) {
@@ -40,7 +52,21 @@ public class Controller {
             Float xOffsetText = toFloat(xOffset);
             Float yOffsetText = toFloat(yOffset);
             if (xOffsetText != 9999999999991F && yOffsetText != 9999999999991F) {
-                Offsetter.offset(inputFile, outputLocation.getText(), xOffsetText, yOffsetText);
+                convert.setDisable(true);
+                status.setText("Converting...");
+                boolean result = false;
+                try {
+                    Offsetter.offset(inputFile, outputLocation.getText(), xOffsetText, yOffsetText);
+                    status.setText("Converted!");
+                } catch (IOException | com.itextpdf.io.IOException e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Sth went wrong, try again");
+                    alert.setContentText(e.getMessage());
+                    alert.show();
+                    status.setText("Error, not converted");
+                }
+                convert.setDisable(false);
+
             }
         }
     }
@@ -84,11 +110,18 @@ public class Controller {
     }
 
     public void createTestFile(ActionEvent actionEvent) {
-    }
-
-    public void validateNumber(InputMethodEvent inputMethodEvent) {
-        System.out.println(inputMethodEvent.getEventType());
-        System.out.println(xOffset.getText());
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getClassLoader().getResource("testWindow.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Test pdf sheet");
+            stage.setScene(new Scene(root, 470, 250));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private File browse() {
