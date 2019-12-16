@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="pdfOffset:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/pdfOffset_jar</output-path>
+    <output-path>$PROJECT_DIR$</output-path>
     <root id="archive" name="pdfOffset.jar">
       <element id="module-output" name="pdfOffset" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/itextpdf/barcodes/7.1.9/barcodes-7.1.9.jar" path-in-jar="/" />

@@ -1,7 +1,7 @@
 
 # pdfOffset  
 ## Creating offset for two side printing of pdfs    
-You can download it [here](https://github.com/JanisBe/pdfOffset/blob/master/pdfOffset.jar).<br>  
+You can download it [here](https://github.com/JanisBe/pdfOffset/raw/master/pdfOffset.jar).<br>  
 Run as  
 ```console  
 java -jar pdfOffset.jar  
@@ -14,7 +14,7 @@ Measure distance between dots as described on the pdf  (you can make holes on on
 -----  
 
 ## Tworzenie rozsuniecia miedzy stronami w pdfach przy druku dwustronnym
-Mozna pobrac [tutaj](https://github.com/JanisBe/pdfOffset/blob/master/pdfOffset.jar).    
+Mozna pobrac [tutaj](https://github.com/JanisBe/pdfOffset/raw/master/pdfOffset.jar).    
 Uruchom jako  
 ```console  
 java -jar pdfOffset.jar  
