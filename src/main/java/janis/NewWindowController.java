@@ -4,9 +4,13 @@ import janis.service.NewPdf;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
 
-import java.io.File;
+import java.io.FileNotFoundException;
+
+import static janis.errorhandling.AlertWindow.showAlert;
+import static janis.utils.FileOpener.openPdf;
 
 public class NewWindowController {
 
@@ -14,35 +18,34 @@ public class NewWindowController {
     private TextArea info;
 
     @FXML
+    private Hyperlink pdfPath;
+
+    private String pathToTempPdf;
+
+    @FXML
     public void initialize() {
         info.setWrapText(true);
         info.setEditable(false);
     }
 
-    public void createNewPdf(ActionEvent actionEvent) {
+    public void createNewPdf() {
         try {
-
-
-            String newPdf = NewPdf.createNewPdf();
-            if ((new File(newPdf)).exists()) {
-
-                Process p = Runtime
-                        .getRuntime()
-                        .exec("rundll32 url.dll,FileProtocolHandler " + newPdf);
-                p.waitFor();
-
-            } else {
-
-                System.out.println("File is not exists");
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            pathToTempPdf = NewPdf.createNewPdf();
+            pdfPath.setText(pathToTempPdf);
+            openPdf(pathToTempPdf);
+        } catch (FileNotFoundException e) {
+            showAlert(e);
         }
     }
 
     public void close(ActionEvent actionEvent) {
         ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
+    }
+
+    public void pdfClick(ActionEvent actionEvent) {
+        if (pdfPath != null) {
+            openPdf(pathToTempPdf);
+        }
     }
 
 }

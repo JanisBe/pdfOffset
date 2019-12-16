@@ -14,6 +14,14 @@ public class NewPdf {
     public static String createNewPdf() throws FileNotFoundException {
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(FILE));
         Document doc = new Document(pdfDoc);
+        drawCircleOnNewPage(pdfDoc);
+        drawCircleOnNewPage(pdfDoc);
+        doc.close();
+        pdfDoc.close();
+        return FILE;
+    }
+
+    private static void drawCircleOnNewPage(PdfDocument pdfDoc) {
         PdfCanvas canvas = new PdfCanvas(pdfDoc.addNewPage());
         canvas.setColor(DeviceCmyk.BLACK, true);
         canvas.circle(100, 100, 2);
@@ -21,8 +29,5 @@ public class NewPdf {
         canvas.circle(100, 750, 2);
         canvas.circle(500, 750, 2);
         canvas.fill();
-        doc.close();
-        pdfDoc.close();
-        return FILE;
     }
 }

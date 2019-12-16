@@ -14,33 +14,34 @@ import java.io.IOException;
 public class Offsetter {
 
     public static void offset(File input, String outputFilePath, float xOffset, float yOffset) throws IOException {
-
+        xOffset *= 2.85714;
+        yOffset *= 2.85714;
         PdfDocument srcDoc = new PdfDocument(new PdfReader(input));
-            Rectangle rect = srcDoc.getFirstPage().getPageSize();
+        Rectangle rect = srcDoc.getFirstPage().getPageSize();
 
-            Rectangle pageSize = new Rectangle(rect.getWidth(), rect.getHeight());
+        Rectangle pageSize = new Rectangle(rect.getWidth(), rect.getHeight());
 
         PdfDocument pdfDoc = new PdfDocument(new PdfWriter(new File(outputFilePath)));
-            pdfDoc.setDefaultPageSize(new PageSize(pageSize));
+        pdfDoc.setDefaultPageSize(new PageSize(pageSize));
 
-            PdfCanvas content = new PdfCanvas(pdfDoc.addNewPage());
-            int n = 0;
-            for (int i = 1; i <= srcDoc.getNumberOfPages(); i++) {
-                PdfFormXObject page = srcDoc.getPage(i).copyAsFormXObject(pdfDoc);
+        PdfCanvas content = new PdfCanvas(pdfDoc.addNewPage());
+        int n = 0;
+        for (int i = 1; i <= srcDoc.getNumberOfPages(); i++) {
+            PdfFormXObject page = srcDoc.getPage(i).copyAsFormXObject(pdfDoc);
 
-                content.clip();
-                content.endPath();
-                if (n % 2 == 0)
-                    content.addXObject(page, 0, 0);// here margin which is installed in DEST1
-                else if (!(n % 2 == 0))
-                    content.addXObject(page, xOffset, yOffset);
-                // y dodatni przesuwa w górę, x dodatni przesuwa w lewo
-                content = new PdfCanvas(pdfDoc.addNewPage());
-                n++;
+            content.clip();
+            content.endPath();
+            if (n % 2 == 0)
+                content.addXObject(page, 0, 0);// here margin which is installed in DEST1
+            else if (!(n % 2 == 0))
+                content.addXObject(page, xOffset, yOffset);
+            // y dodatni przesuwa w górę, x dodatni przesuwa w lewo
+            content = new PdfCanvas(pdfDoc.addNewPage());
+            n++;
 
-            }
-
+        }
+        pdfDoc.removePage(pdfDoc.getLastPage());
         srcDoc.close();
-            pdfDoc.close();
+        pdfDoc.close();
     }
 }

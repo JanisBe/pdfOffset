@@ -17,56 +17,54 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 
+import static janis.errorhandling.AlertWindow.showAlert;
+import static janis.utils.FileOpener.openPdf;
+
 public class MainController {
     @FXML
     private NumberTextField xOffset;
-
     @FXML
     private NumberTextField yOffset;
-
     @FXML
     private TextField inputLocation;
-
     @FXML
     private TextField outputLocation;
-
+    @FXML
+    Hyperlink pdfPath;
     @FXML
     private Button convert;
-
     @FXML
     private Label status;
 
     private File inputFile;
 
-    public void browseOutput(ActionEvent actionEvent) {
+    public void browseOutput() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(new Stage());
-        if (selectedDirectory != null) {
-            outputLocation.setText(selectedDirectory.getAbsolutePath() + "_offset.pdf");
+        if (selectedDirectory != null && inputFile != null) {
+            outputLocation.setText(selectedDirectory.getAbsolutePath() + "\\" + cutPdfPart(inputFile.getName()) + "_offset.pdf");
+        } else {
+            showAlert("Missing input file", "Pick input file first");
         }
 
     }
 
-    public void convert(ActionEvent actionEvent) {
+    public void convert() {
         if (inputFile != null && !outputLocation.getText().isEmpty()) {
             Float xOffsetText = toFloat(xOffset);
             Float yOffsetText = toFloat(yOffset);
             if (xOffsetText != 9999999999991F && yOffsetText != 9999999999991F) {
                 convert.setDisable(true);
                 status.setText("Converting...");
-                boolean result = false;
                 try {
                     Offsetter.offset(inputFile, outputLocation.getText(), xOffsetText, yOffsetText);
                     status.setText("Converted!");
                 } catch (IOException | com.itextpdf.io.IOException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Sth went wrong, try again");
-                    alert.setContentText(e.getMessage());
-                    alert.show();
+                    showAlert(e);
                     status.setText("Error, not converted");
                 }
                 convert.setDisable(false);
-
+                pdfPath.setText(inputFile.getName());
             }
         }
     }
@@ -94,13 +92,17 @@ public class MainController {
         }
     }
 
-    public void browseInput(ActionEvent actionEvent) {
+    public void browseInput() {
         inputFile = browse();
         if (inputFile != null) {
             String absolutePath = inputFile.getAbsolutePath();
             inputLocation.setText(absolutePath);
-            outputLocation.setText(absolutePath.substring(0, absolutePath.length() - 4) + "_offset.pdf");
+            outputLocation.setText(cutPdfPart(absolutePath) + "_offset.pdf");
         }
+    }
+
+    private String cutPdfPart(String name) {
+        return name.substring(0, name.length() - 4);
     }
 
     public void close(ActionEvent actionEvent) {
@@ -109,7 +111,7 @@ public class MainController {
         stage.close();
     }
 
-    public void createTestFile(ActionEvent actionEvent) {
+    public void createTestFile() {
         Parent root;
         try {
             root = FXMLLoader.load(getClass().getClassLoader().getResource("testWindow.fxml"));
@@ -130,5 +132,9 @@ public class MainController {
         chooser.getExtensionFilters().add(extFilter);
         chooser.setTitle("Open File");
         return chooser.showOpenDialog(new Stage());
+    }
+
+    public void pdfClick() {
+        openPdf(outputLocation.getText());
     }
 }

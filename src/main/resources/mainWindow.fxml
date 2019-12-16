@@ -54,13 +54,18 @@
         </Button>
         <Label fx:id="status" GridPane.columnIndex="2" GridPane.rowIndex="4" text="Ready..." alignment="CENTER"
                contentDisplay="CENTER"/>
+        <Hyperlink fx:id="pdfPath" GridPane.columnIndex="3" GridPane.rowIndex="4" onAction="#pdfClick"/>
         <Button fx:id="testPdfFile" mnemonicParsing="false" onAction="#createTestFile" text="Test pdf file"
                 GridPane.halignment="CENTER"/>
+        <Label text="X offset" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
         <NumberTextField maxWidth="40.0" minWidth="40.0" prefWidth="40.0" GridPane.columnIndex="1"
                          GridPane.halignment="RIGHT" GridPane.rowIndex="3" fx:id="xOffset"/>
-        <Label text="X offset" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label GridPane.columnIndex="2" GridPane.rowIndex="3" text="mm" alignment="CENTER"
+               contentDisplay="CENTER"/>
         <Label text="Y offset" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
         <NumberTextField fx:id="yOffset" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" GridPane.columnIndex="3"
                          GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
+        <Label GridPane.columnIndex="4" GridPane.rowIndex="3" text="mm" alignment="CENTER"
+               contentDisplay="CENTER"/>
     </children>
 </GridPane>
