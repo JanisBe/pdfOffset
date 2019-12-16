@@ -8,7 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -39,12 +45,15 @@ public class MainController {
     private File inputFile;
 
     public void browseOutput() {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(new Stage());
-        if (selectedDirectory != null && inputFile != null) {
-            outputLocation.setText(selectedDirectory.getAbsolutePath() + "\\" + cutPdfPart(inputFile.getName()) + "_offset.pdf");
-        } else {
+
+        if (inputFile == null) {
             showAlert("Missing input file", "Pick input file first");
+        } else {
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            File selectedDirectory = directoryChooser.showDialog(new Stage());
+            if (selectedDirectory != null) {
+                outputLocation.setText(selectedDirectory.getAbsolutePath() + "\\" + cutPdfPart(inputFile.getName()) + "_offset.pdf");
+            }
         }
 
     }
