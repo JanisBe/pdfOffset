@@ -1,0 +1,192 @@
+Index: src/main/java/janis/NewWindowController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/janis/NewWindowController.java	(revision 8449dd34d003ba24cf560ed4051271c761e91ac3)
++++ src/main/java/janis/NewWindowController.java	(date 1576744586585)
+@@ -3,17 +3,21 @@
+ import janis.service.NewPdf;
+ import javafx.event.ActionEvent;
+ import javafx.fxml.FXML;
++import javafx.fxml.FXMLLoader;
+ import javafx.scene.Node;
++import javafx.scene.Parent;
+ import javafx.scene.control.Hyperlink;
+ import javafx.scene.control.TextArea;
+ 
+ import java.io.FileNotFoundException;
+ 
+ import static janis.errorhandling.AlertWindow.showAlert;
++import static janis.errorhandling.AlertWindow.showInfo;
+ import static janis.utils.FileOpener.openPdf;
+ 
+ public class NewWindowController {
+-
++@FXML
++private MainController mainController;
+     @FXML
+     private TextArea info;
+ 
+@@ -28,12 +32,18 @@
+         info.setEditable(false);
+     }
+ 
+-    public void createNewPdf() {
++    public void createNewPdf(ActionEvent actionEvent) {
+         try {
+             pathToTempPdf = NewPdf.createNewPdf();
+             pdfPath.setText(pathToTempPdf);
+             openPdf(pathToTempPdf);
+-        } catch (FileNotFoundException e) {
++            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("mainWindow.fxml"));
++            loader.load();
++            MainController mainController = loader.getController();
++            mainController.getInputLocation().setText(pathToTempPdf);
++            showInfo("Document created!","test file path is set in main window, print with measured values");
++            ((Node) (actionEvent.getSource())).getScene().getWindow().hide();
++        } catch (Exception e) {
+             showAlert(e);
+         }
+     }
+@@ -48,4 +58,7 @@
+         }
+     }
+ 
++    public void setMainController(MainController mainController) {
++        this.mainController = mainController;
++    }
+ }
+Index: src/main/java/janis/MainController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/janis/MainController.java	(revision 8449dd34d003ba24cf560ed4051271c761e91ac3)
++++ src/main/java/janis/MainController.java	(date 1576744586576)
+@@ -22,6 +22,8 @@
+ 
+ import java.io.File;
+ import java.io.IOException;
++import java.net.URL;
++import java.util.ResourceBundle;
+ 
+ import static janis.errorhandling.AlertWindow.showAlert;
+ import static janis.utils.FileOpener.openPdf;
+@@ -42,8 +44,16 @@
+     @FXML
+     private Label status;
+ 
++    @FXML
++    private NewWindowController newWindowController;
++
+     private File inputFile;
+ 
++    @FXML
++    public void initialize() {
++        newWindowController.setMainController(this);
++    }
++
+     public void browseOutput() {
+ 
+         if (inputFile == null) {
+@@ -129,6 +139,7 @@
+             stage.setScene(new Scene(root, 470, 250));
+             stage.initModality(Modality.APPLICATION_MODAL);
+             stage.setResizable(false);
++            stage.initOwner(convert.getScene().getWindow());
+             stage.showAndWait();
+         } catch (IOException e) {
+             e.printStackTrace();
+@@ -146,4 +157,16 @@
+     public void pdfClick() {
+         openPdf(outputLocation.getText());
+     }
++
++    public TextField getInputLocation() {
++        return inputLocation;
++    }
++
++    public TextField getOutputLocation() {
++        return outputLocation;
++    }
++
++    public void setInputFile(File inputFile) {
++        this.inputFile = inputFile;
++    }
+ }
+Index: src/main/resources/testWindow.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/testWindow.fxml	(revision 8449dd34d003ba24cf560ed4051271c761e91ac3)
++++ src/main/resources/testWindow.fxml	(date 1576569481739)
+@@ -3,13 +3,14 @@
+ <?import javafx.scene.control.*?>
+ <?import javafx.scene.layout.*?>
+ 
+-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janis.NewWindowController">
++<DialogPane fx:id="testNewWindow" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janis.NewWindowController">
+     <header>
+         <AnchorPane maxHeight="200.0" maxWidth="320.0" minHeight="200.0" minWidth="320.0" prefHeight="200.0" prefWidth="320.0">
+             <children>
+                 <Button fx:id="newPdf" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#createNewPdf" text="Create and print test pdf file" />
+                 <TextArea fx:id="info" layoutX="14.0" layoutY="64.0" prefHeight="132.0" prefWidth="459.0" text="To calculate x and y offset, measure in millimeters distance between dots on 2 pages of created and printed document. &#10;Positive x is right, positive Y is up&#10;_________________________________________________&#10;Zmierz w milimetrach x oraz y przesunięcia między kropkami na stronach.&#10;Dodatni x to przesunięcie w prawi, dodatni y to przesunięcie do góry" />
+-                <Hyperlink fx:id="pdfPath" layoutX="280.0" layoutY="28.0" onAction="#pdfClick" prefHeight="26.0" prefWidth="192.0" />
++                <Hyperlink fx:id="pdfPath" layoutX="218.0" layoutY="29.0" onAction="#pdfClick" prefHeight="26.0" prefWidth="192.0" />
++                <Button fx:id="close" layoutX="421.0" layoutY="29.0" mnemonicParsing="false" onAction="#close" text="Close" />
+             </children>
+         </AnchorPane>
+     </header>
+Index: src/main/resources/mainWindow.fxml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/mainWindow.fxml	(revision 8449dd34d003ba24cf560ed4051271c761e91ac3)
++++ src/main/resources/mainWindow.fxml	(date 1576569398252)
+@@ -7,6 +7,7 @@
+ <GridPane alignment="center" hgap="1.0" minHeight="180.0" minWidth="500.0" prefHeight="180.0" prefWidth="500.0"
+           vgap="1.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="janis.MainController">
++    <fx:include fx:id="newWindowController" source="testWindow.fxml"/>
+     <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+         <RowConstraints minHeight="10.0" prefHeight="30.0"/>
+Index: src/main/java/janis/errorhandling/AlertWindow.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/janis/errorhandling/AlertWindow.java	(revision 8449dd34d003ba24cf560ed4051271c761e91ac3)
++++ src/main/java/janis/errorhandling/AlertWindow.java	(date 1576567369126)
+@@ -5,15 +5,23 @@
+ public class AlertWindow {
+     public static void showAlert(Exception e) {
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+-        alert.setTitle("Sth went wrong, try again");
+-        alert.setContentText(e.getMessage());
+-        alert.show();
++        assignAlertContent(alert, "Sth went wrong, try again", e.getMessage());
+     }
+ 
+     public static void showAlert(String title, String context) {
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+-        alert.setTitle(title);
+-        alert.setContentText(context);
++        assignAlertContent(alert, title, context);
++    }
++
++
++    public static void showInfo(String title, String context) {
++        Alert alert = new Alert(Alert.AlertType.INFORMATION);
++        assignAlertContent(alert, title, context);
++    }
++
++    private static void assignAlertContent(Alert alert, String s, String message) {
++        alert.setTitle(s);
++        alert.setContentText(message);
+         alert.show();
+     }
+ }

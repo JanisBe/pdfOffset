@@ -28,7 +28,6 @@ public class Offsetter {
         int n = 0;
         for (int i = 1; i <= srcDoc.getNumberOfPages(); i++) {
             PdfFormXObject page = srcDoc.getPage(i).copyAsFormXObject(pdfDoc);
-
             content.clip();
             content.endPath();
             if (n % 2 == 0)

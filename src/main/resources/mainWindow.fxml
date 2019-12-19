@@ -1,71 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import janis.objects.NumberTextField?>
+<?import janis.objects.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<GridPane alignment="center" hgap="1.0" minHeight="180.0" minWidth="500.0" prefHeight="180.0" prefWidth="500.0"
-          vgap="1.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="janis.MainController">
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" hgap="1.0" minHeight="180.0" minWidth="500.0" prefHeight="180.0" prefWidth="500.0" vgap="1.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="janis.MainController">
     <rowConstraints>
-        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-        <RowConstraints minHeight="10.0" prefHeight="30.0"/>
-        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="NEVER" />
     </rowConstraints>
     <columnConstraints>
-        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
-        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
-        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
-        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
-        <ColumnConstraints minWidth="10.0" prefWidth="150.0"/>
-        <ColumnConstraints/>
-        <ColumnConstraints/>
-        <ColumnConstraints/>
-        <ColumnConstraints/>
-        <ColumnConstraints/>
-        <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0"/>
-        <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0"/>
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="150.0" />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints />
+        <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+        <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
     </columnConstraints>
     <children>
-        <Button fx:id="close" mnemonicParsing="false" onAction="#close" text="Close" GridPane.columnIndex="4"
-                GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER"/>
-        <Button fx:id="browseInput" mnemonicParsing="false" onAction="#browseInput" text="Browse"
-                GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1"
-                GridPane.valignment="CENTER"/>
-        <TextField fx:id="inputLocation" prefWidth="190.0" GridPane.columnIndex="1" GridPane.columnSpan="3"
-                   GridPane.rowIndex="1"/>
-        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="295.0"
-               text="Printer offset calculator" GridPane.columnIndex="1" GridPane.columnSpan="3"/>
-        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Input pdf file" GridPane.halignment="CENTER"
-               GridPane.rowIndex="1"/>
-        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Output pdf file" GridPane.halignment="CENTER"
-               GridPane.rowIndex="2"/>
-        <TextField fx:id="outputLocation" prefWidth="190.0" GridPane.columnIndex="1" GridPane.columnSpan="3"
-                   GridPane.rowIndex="2"/>
-        <Button fx:id="browseOutput" mnemonicParsing="false" onAction="#browseOutput" text="Browse"
-                GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2"/>
-        <Button fx:id="convert" mnemonicParsing="false" onAction="#convert" text="Convert" GridPane.columnIndex="1"
-                GridPane.halignment="CENTER" GridPane.rowIndex="4">
+        <Button fx:id="close" mnemonicParsing="false" onAction="#close" text="Close" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+        <Button fx:id="browseInput" mnemonicParsing="false" onAction="#browseInput" text="Browse" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+        <TextField fx:id="inputLocation" prefWidth="190.0" promptText="You can also paste file path here" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="295.0" text="Printer offset calculator" GridPane.columnIndex="1" GridPane.columnSpan="3" />
+        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Input pdf file" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" text="Output pdf file" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <TextField fx:id="outputLocation" prefWidth="190.0" promptText="Output directory" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+        <Button fx:id="browseOutput" mnemonicParsing="false" onAction="#browseOutput" text="Browse" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <Button fx:id="convert" mnemonicParsing="false" onAction="#convert" text="Convert" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
             <font>
-                <Font name="System Bold" size="12.0"/>
+                <Font name="System Bold" size="12.0" />
             </font>
         </Button>
-        <Label fx:id="status" GridPane.columnIndex="2" GridPane.rowIndex="4" text="Ready..." alignment="CENTER"
-               contentDisplay="CENTER"/>
-        <Hyperlink fx:id="pdfPath" GridPane.columnIndex="3" GridPane.rowIndex="4" onAction="#pdfClick"/>
-        <Button fx:id="testPdfFile" mnemonicParsing="false" onAction="#createTestFile" text="Test pdf file"
-                GridPane.halignment="CENTER"/>
-        <Label text="X offset" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-        <NumberTextField maxWidth="40.0" minWidth="40.0" prefWidth="40.0" GridPane.columnIndex="1"
-                         GridPane.halignment="RIGHT" GridPane.rowIndex="3" fx:id="xOffset"/>
-        <Label GridPane.columnIndex="2" GridPane.rowIndex="3" text="mm" alignment="CENTER"
-               contentDisplay="CENTER"/>
-        <Label text="Y offset" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-        <NumberTextField fx:id="yOffset" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" GridPane.columnIndex="3"
-                         GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
-        <Label GridPane.columnIndex="4" GridPane.rowIndex="3" text="mm" alignment="CENTER"
-               contentDisplay="CENTER"/>
+        <Label fx:id="status" alignment="CENTER" contentDisplay="CENTER" text="Ready..." GridPane.columnIndex="2" GridPane.rowIndex="4" />
+        <Hyperlink fx:id="pdfPath" onAction="#pdfClick" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+        <Button fx:id="testPdfFile" mnemonicParsing="false" onAction="#createTestFile" text="Test pdf file" GridPane.halignment="RIGHT">
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin></Button>
+        <Label text="X offset" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        <NumberTextField maxWidth="40.0" minWidth="40.0" prefWidth="40.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" fx:id="xOffset" />
+        <Label alignment="CENTER" contentDisplay="CENTER" text="mm" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+        <Label text="Y offset" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+        <NumberTextField fx:id="yOffset" maxWidth="40.0" minWidth="40.0" prefWidth="40.0" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+        <Label alignment="CENTER" contentDisplay="CENTER" text="mm" GridPane.columnIndex="4" GridPane.rowIndex="3" />
     </children>
 </GridPane>

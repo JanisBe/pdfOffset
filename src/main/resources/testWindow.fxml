@@ -9,7 +9,8 @@
             <children>
                 <Button fx:id="newPdf" layoutX="14.0" layoutY="27.0" mnemonicParsing="false" onAction="#createNewPdf" text="Create and print test pdf file" />
                 <TextArea fx:id="info" layoutX="14.0" layoutY="64.0" prefHeight="132.0" prefWidth="459.0" text="To calculate x and y offset, measure in millimeters distance between dots on 2 pages of created and printed document. &#10;Positive x is right, positive Y is up&#10;_________________________________________________&#10;Zmierz w milimetrach x oraz y przesunięcia między kropkami na stronach.&#10;Dodatni x to przesunięcie w prawi, dodatni y to przesunięcie do góry" />
-                <Hyperlink fx:id="pdfPath" layoutX="280.0" layoutY="28.0" onAction="#pdfClick" prefHeight="26.0" prefWidth="192.0" />
+                <Hyperlink fx:id="pdfPath" layoutX="220.0" layoutY="28.0" onAction="#pdfClick" prefHeight="26.0" prefWidth="192.0" />
+                <Button fx:id="close" layoutX="421.0" layoutY="29.0" mnemonicParsing="false" onAction="#close" text="Close" />
             </children>
         </AnchorPane>
     </header>

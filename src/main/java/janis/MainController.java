@@ -1,10 +1,14 @@
 package janis;
 
 import janis.objects.NumberTextField;
+import janis.service.NewPdf;
 import janis.service.Offsetter;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,12 +25,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import static janis.errorhandling.AlertWindow.showAlert;
 import static janis.utils.FileOpener.openPdf;
 
-public class MainController {
+public class MainController implements Initializable {
     @FXML
     private NumberTextField xOffset;
     @FXML
@@ -44,6 +51,31 @@ public class MainController {
 
     private File inputFile;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        xOffset.setOnMouseClicked(e -> xOffset.selectAll());
+        yOffset.setOnMouseClicked(e -> yOffset.selectAll());
+        inputLocation.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+                String text = inputLocation.getText().trim();
+                inputLocation.setText(text);
+                if (!text.isEmpty()) {
+                    if (newPropertyValue) {
+                        ;
+                    } else {
+                        inputFile = new File(text);
+                        System.out.println(inputFile.isFile());
+                        if (inputFile.isFile()) {
+                            addOffsetToPath(inputFile.getParent());
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
     public void browseOutput() {
 
         if (inputFile == null) {
@@ -52,10 +84,14 @@ public class MainController {
             DirectoryChooser directoryChooser = new DirectoryChooser();
             File selectedDirectory = directoryChooser.showDialog(new Stage());
             if (selectedDirectory != null) {
-                outputLocation.setText(selectedDirectory.getAbsolutePath() + "\\" + cutPdfPart(inputFile.getName()) + "_offset.pdf");
+                addOffsetToPath(selectedDirectory.getAbsolutePath());
             }
         }
 
+    }
+
+    private void addOffsetToPath(String selectedDirectory) {
+        outputLocation.setText(selectedDirectory + "\\" + cutPdfPart(inputFile.getName()) + "_offset.pdf");
     }
 
     public void convert() {
@@ -140,6 +176,9 @@ public class MainController {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
         chooser.getExtensionFilters().add(extFilter);
         chooser.setTitle("Open File");
+        if(inputFile!=null){
+            chooser.setInitialDirectory(new File(inputFile.getParent()));
+        }
         return chooser.showOpenDialog(new Stage());
     }
 
