@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 import java.io.FileNotFoundException;
 
@@ -21,6 +22,7 @@ public class NewWindowController {
     private Hyperlink pdfPath;
 
     private String pathToTempPdf;
+    public TextField inputLocationFromMain;
 
     @FXML
     public void initialize() {
@@ -32,7 +34,8 @@ public class NewWindowController {
         try {
             pathToTempPdf = NewPdf.createNewPdf();
             pdfPath.setText(pathToTempPdf);
-            openPdf(pathToTempPdf);
+//            openPdf(pathToTempPdf);
+            inputLocationFromMain.setText(pathToTempPdf);
         } catch (FileNotFoundException e) {
             showAlert(e);
         }
