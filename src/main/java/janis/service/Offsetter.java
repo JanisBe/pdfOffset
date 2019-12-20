@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class Offsetter {
 
-    public static final float PTS_TO_MM = 2.85714F;
+    private static final float PTS_TO_MM = 2.85714F;
 
     public static void offset(File input, String outputFilePath, float xOffset, float yOffset) throws IOException {
         xOffset *= PTS_TO_MM;
